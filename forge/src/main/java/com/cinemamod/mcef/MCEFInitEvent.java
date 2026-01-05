@@ -17,24 +17,27 @@
  *     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
  *     USA
  */
-package com.cinemamod.mcef.mixins;
 
-import com.cinemamod.mcef.MCEF;
-import net.minecraft.client.renderer.GameRenderer;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+/*
+ * little unsure of if I should uncomment this or not
+ * basically; forge's way of doing this sorta "listening for a thing" is events
+ * this allows that to be used for MCEF initalization
+ *
+ * there is a fabric-equivalent-expectation for this, but it's sorta just what's already in the MCEF class if I'm remembering correctly
+ */
 
-@Mixin(GameRenderer.class)
-public class CefRenderUpdateMixin {
-    
-    // Minecraft 1.20.4 usa: render(float partialTick, long nanoTime, boolean renderLevel)
-    // pero solo necesitamos interceptar para ejecutar el message loop de CEF
-    @Inject(at = @At("HEAD"), method = "render")
-    public void preRender(float partialTick, long nanoTime, boolean renderLevel, CallbackInfo ci) {
-        if (MCEF.isInitialized()) {
-            MCEF.getApp().getHandle().N_DoMessageLoopWork();
-        }
-    }
-}
+//package com.cinemamod.mcef;
+//
+//import net.minecraftforge.common.MinecraftForge;
+//import net.minecraftforge.eventbus.api.Event;
+//
+//public class MCEFInitEvent extends Event {
+//	static {
+//		MCEF.scheduleForInit(() -> {
+//			MinecraftForge.EVENT_BUS.post(new MCEFInitEvent());
+//		});
+//	}
+//
+//	public MCEFInitEvent() {
+//	}
+//}

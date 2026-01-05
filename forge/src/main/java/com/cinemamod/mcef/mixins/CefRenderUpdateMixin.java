@@ -17,6 +17,7 @@
  *     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
  *     USA
  */
+
 package com.cinemamod.mcef.mixins;
 
 import com.cinemamod.mcef.MCEF;
@@ -28,11 +29,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class CefRenderUpdateMixin {
-    
-    // Minecraft 1.20.4 usa: render(float partialTick, long nanoTime, boolean renderLevel)
-    // pero solo necesitamos interceptar para ejecutar el message loop de CEF
     @Inject(at = @At("HEAD"), method = "render")
-    public void preRender(float partialTick, long nanoTime, boolean renderLevel, CallbackInfo ci) {
+    public void preRender(float partialTicks, long nanoTime, boolean renderLevel, CallbackInfo ci) {
         if (MCEF.isInitialized()) {
             MCEF.getApp().getHandle().N_DoMessageLoopWork();
         }
